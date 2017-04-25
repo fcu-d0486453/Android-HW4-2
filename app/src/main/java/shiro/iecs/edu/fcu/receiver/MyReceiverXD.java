@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 public class MyReceiverXD extends BroadcastReceiver {
 
     static int id = 70000;
@@ -24,9 +26,16 @@ public class MyReceiverXD extends BroadcastReceiver {
         Toast.makeText(context, "這是MyReceiverXD 所發出的", Toast.LENGTH_SHORT).show();
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 
-        Intent newintent = new Intent();
-        newintent.setClass(context, ActivityNotification.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, newintent ,0);
+
+        Intent myIntent = new Intent();
+
+        myIntent.setClass(context, MainActivity.class);
+        myIntent.putExtra("GGGYYY",msg);
+
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(context, 0, myIntent ,FLAG_UPDATE_CURRENT);
+                                        //1.目前,2.保留,3.給外部應用程式用來啟動Activity的Intent實體
+        // 第4個參數通常設定為FLAG_UPDATE_CURRENT表示如果PendingIntent已存在，則更新其資料。
 
         Notification notify = null;
         if( Build.VERSION.SDK_INT>=11 ){
